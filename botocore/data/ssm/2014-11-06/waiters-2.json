@@ -1,0 +1,43 @@
+{
+  "version": 2,
+  "waiters": {
+    "CommandComplete": {
+      "description": "Waits until SSM Command completes execution",
+      "delay": 15,
+      "operation": "GetCommandInvocation",
+      "maxAttempts": 240,
+      "acceptors": [
+        {
+          "expected": "Success",
+          "matcher": "path",
+          "state": "success",
+          "argument": "Status"
+        },
+        {
+          "expected": "Cancelled",
+          "matcher": "path",
+          "state": "failure",
+          "argument": "Status"
+        },
+        {
+          "expected": "TimedOut",
+          "matcher": "path",
+          "state": "failure",
+          "argument": "Status"
+        },
+        {
+          "expected": "Failed",
+          "matcher": "path",
+          "state": "failure",
+          "argument": "Status"
+        },
+        {
+          "expected": "Cancelling",
+          "matcher": "path",
+          "state": "failure",
+          "argument": "Status"
+        }
+      ]
+    }
+  }
+}
